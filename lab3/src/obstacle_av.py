@@ -6,7 +6,7 @@ from geometry_msgs.msg import Twist
 
 def callback(msg):
 
-  if msg.ranges[0] > 1: #Here I had a problem when tried to put 10 cm distance to an obstacle, it just ignored it and hit the wall
+  if msg.ranges[0] > 0.4: #Here I had a problem when tried to put 10 cm distance to an obstacle, it just ignored it and hit the wall
       move.linear.x = 0.4 #When I put speed higher than 0.4 it enables dron rotation so it runs not straight but also with angle speed
       move.angular.z = 0.0
 
