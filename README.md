@@ -46,3 +46,7 @@ Using the ar_trac_alvar package and the camera of your laptop / usb_cam, detect 
 1. Calibrate the camera
 2. Show the ar_marker in rviz.
 3. Create a node that prints the pose of the marker.
+
+-Lab10
+
+A controller for the drone to track the AR tag in the world.
