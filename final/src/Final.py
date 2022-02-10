@@ -39,11 +39,11 @@ list_c = [0, 0, 0, 0, 0]
 global  Kp_a, Ki_a, Kd_a, Kp_b, Ki_b, Kd_b, Kp_c, Ki_c, Kd_c
 Kp_a = 0.035 #WORKS 0.035
 Ki_a = 0.25 #WORKS 0.25
-Kd_a = 3.3 #WORKS 2.3
+Kd_a = 5.3 #WORKS 2.3
 
-Kp_b = 0.1 #Before 0.1 very good for P config only 0.17
-Ki_b = 0.1  #Before 0.1
-Kd_b = 3.4  #Before 2.4
+Kp_b = 0.05 #Before 0.1 very good for P config only 0.17
+Ki_b = 0.2  #Before 0.1
+Kd_b = 4.0  #Before 2.4
 
 Kp_c = 0.7 #Norm alone 1.0
 Ki_c = 0.3 #Norm alone 0.3
@@ -133,7 +133,7 @@ if __name__ == '__main__':
         time.sleep(5)
 
         speed = Twist()
-        while height < 1.4:
+        while height < 1.7: #1.2
             speed.linear.z = 0.1
             pub.publish(speed)
         else: 
@@ -143,7 +143,7 @@ if __name__ == '__main__':
         while not rospy.is_shutdown():
 
             #Counter of stable state
-            if speed.linear.x <= 0.01 and speed.linear.y <= 0.01 and mode == True:
+            if speed.linear.x <= 0.017 and speed.linear.y <= 0.017 and mode == True:
                 count += 0.1
             else:
                 count = 0.0
@@ -154,7 +154,7 @@ if __name__ == '__main__':
             
             if mode == True and param[0] == 4 and flight_mode == False:
                 #Forward_speed
-                error_a = param[3] - 1.5
+                error_a = param[3] - 1.3 #1.3
                 
                 a = limit(pid_controller(error_a, list_a, Kp_a, Ki_a, Kd_a), 0.2)
 
@@ -189,8 +189,8 @@ if __name__ == '__main__':
                 list_c.append(error_c)
 
                 #Publishing speeds
-                speed.linear.x = a #round(a, 3)    
-                speed.linear.y = b #round(b, 3)
+                speed.linear.x = a*0.2 #round(a, 3)    
+                speed.linear.y = b*0.4 #round(b, 3)
                 speed.angular.z = 0.0 #round(c, 3)
 
                 #print("\n    Forward speed: {0} \n    Horizontal speed: {1} \n    Angular speed: {2}".format(a, b, c))
@@ -208,7 +208,7 @@ if __name__ == '__main__':
                     speed.angular.z = 0.0
                     pub.publish(speed)
 
-                if c < 2.8: #3.1
+                if c < 2.4: #3.1
                     speed.linear.x = 0.1
                     pub.publish(speed)
                     print("\n   {0}\n".format(c))
